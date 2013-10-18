@@ -26,6 +26,16 @@ The result will be:
         that wraps...
         on several lines.
 
+## Building
+
+Maven 3 is required.
+
+Execute the following command:
+
+    mvn package
+
+The  `perf-log-analyzer.jar` file can then be located under the `target` directory.
+
 ## Usage
 
 Here is the usage:
