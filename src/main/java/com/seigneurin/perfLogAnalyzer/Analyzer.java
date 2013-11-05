@@ -21,6 +21,7 @@ public class Analyzer {
     private String fullLineB;
     private Date dateA;
     private Date dateB;
+    private int lineNumberA;
 
     protected Analyzer() {
         calendar = Calendar.getInstance();
@@ -39,8 +40,11 @@ public class Analyzer {
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
         String line;
+        int lineNumber = 0;
         while ((line = bufferedReader.readLine()) != null) {
+            lineNumber++;
 
+            // strip the BOM
             if (fullLineA == null && line.startsWith("\uFEFF"))
                 line = line.substring(1);
 
@@ -51,6 +55,7 @@ public class Analyzer {
                 // move B to A
                 fullLineA = indent + fullLineB;
                 dateA = dateB;
+                lineNumberA = lineNumber - 1;
                 // keep the new log line (B)
                 fullLineB = line;
                 dateB = date;
@@ -88,7 +93,7 @@ public class Analyzer {
         long diff = millisB - millisA;
         if (diff >= thresholdMillis) {
             // System.out.println("### Took " + diff + " milliseconds to execute");
-            System.out.println("### Took " + diff / 1000 + " seconds to execute");
+            System.out.println("### :" + lineNumberA + " - Took " + diff / 1000 + " seconds to execute");
             System.out.println(fullLineA);
             System.out.println();
         }
